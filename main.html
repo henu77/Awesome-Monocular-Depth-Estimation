@@ -1,0 +1,346 @@
+<!-- 论文展示页面 -->
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="UTF-8" />
+    <title>单目深度估计论文列表</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background:  #fff;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 900px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 32px 36px 24px 36px;
+        border-radius: 14px;
+        box-shadow: 0 4px 24px #0002;
+      }
+      h1 {
+        text-align: center;
+        letter-spacing: 2px;
+        color: #1976d2;
+        margin-bottom: 24px;
+      }
+      .search-bar {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 28px;
+      }
+      .search-bar input {
+        width: 440px;
+        padding: 10px 16px;
+        border: 1.5px solid #b0bec5;
+        border-radius: 22px;
+        font-size: 1em;
+        outline: none;
+        transition: border 0.2s;
+        box-shadow: 0 1px 4px #0001;
+      }
+      .search-bar input:focus {
+        border-color: #1976d2;
+      }
+      .paper {
+        border-bottom: 1px solid #e3e8ee;
+        padding: 22px 0 18px 0;
+        transition: transform 0.18s cubic-bezier(.4,1.4,.6,1), box-shadow 0.18s cubic-bezier(.4,1.4,.6,1);
+        border-radius: 8px;
+      }
+      .paper:hover {
+        background: #fff;
+        transform: scale(1.0125);
+        box-shadow: 0 8px 32px #1976d220;
+        
+      }
+      .paper:last-child {
+        border-bottom: none;
+      }
+      .title {
+        font-size: 1.22em;
+        font-weight: bold;
+        color: #222;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .title span.venue-label {
+        flex-shrink: 0;
+        margin-left: 10px;
+        display: inline-block;
+        background: #1976d2;
+        color: #fff;
+        border-radius: 6px;
+        padding: 2px 10px;
+        font-size: 0.95em;
+        vertical-align: middle;
+        max-width: 40vw;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .meta {
+        color: #607d8b;
+        font-size: 0.97em;
+        margin-bottom: 8px;
+      }
+      .links {
+        margin-bottom: 6px;
+      }
+      .links a {
+        margin-right: 12px;
+        color: #1976d2;
+        text-decoration: none;
+        font-size: 0.97em;
+        background: #e3f2fd;
+        padding: 3px 10px;
+        border-radius: 12px;
+        transition: background 0.2s;
+        display: inline-block;
+      }
+      .links a:hover {
+        background: #bbdefb;
+      }
+      .abstract {
+        margin: 8px 0 0 0;
+        font-size: 1.13em;
+        color: #333;
+        line-height: 1.6;
+      }
+      .citation {
+        background: #f4f4f4;
+        font-size: 1.05em;
+        padding: 7px 10px;
+        border-radius: 4px;
+        margin-top: 10px;
+        white-space: pre-wrap;
+        color: #444;
+        font-family: "Consolas", monospace;
+        overflow-x: auto;
+      }
+      .collapsible-row {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+        margin-top: 8px;
+        margin-bottom: 6px;
+        color: #1976d2;
+        font-size: 1.05em;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .collapsible-row:hover {
+        color: #0d47a1;
+      }
+      .triangle {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-right: 7px;
+        border-top: 7px solid transparent;
+        border-bottom: 7px solid transparent;
+        border-left: 10px solid #1976d2;
+        transition: transform 0.2s;
+      }
+      .triangle.open {
+        transform: rotate(90deg);
+      }
+      .content-collapsed {
+        display: none;
+      }
+      @media (max-width: 600px) {
+        .container {
+          padding: 10px 2vw;
+        }
+        .search-bar input {
+          width: 90vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>单目深度估计论文列表</h1>
+      <div class="search-bar">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="输入关键词（标题、作者、会议、年份、摘要等）进行搜索..."
+        />
+      </div>
+      <div id="papers"></div>
+    </div>
+    <script>
+      let allPapers = [];
+      const papersDiv = document.getElementById("papers");
+      const searchInput = document.getElementById("searchInput");
+
+      function renderPapers(papers) {
+        papersDiv.innerHTML = "";
+        if (papers.length === 0) {
+          papersDiv.innerHTML =
+            '<div style="text-align:center;color:#aaa;padding:32px 0;">未找到相关论文</div>';
+          return;
+        }
+        // 按年份降序分组
+        const yearMap = {};
+        papers.forEach(p => {
+          if (!yearMap[p.year]) yearMap[p.year] = [];
+          yearMap[p.year].push(p);
+        });
+        const sortedYears = Object.keys(yearMap).sort((a, b) => b - a);
+        let idx = 0;
+        sortedYears.forEach(year => {
+          // 年份分界线
+          const yearDiv = document.createElement("div");
+          yearDiv.style = "font-size:1.75em;font-weight:bold;color:#ee4325;margin:32px 0 12px 0;padding-left:2px;";
+          yearDiv.textContent = year;
+          papersDiv.appendChild(yearDiv);
+          yearMap[year].forEach(paper => {
+            const div = document.createElement("div");
+            div.className = "paper";
+            // 摘要折叠
+            const abstractId = `abstract-${idx}`;
+            const citationId = `citation-${idx}`;
+            div.innerHTML = `
+            <div class="title">
+              <span style=\"overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;max-width:60vw;\">${paper.title}</span>
+              ${paper.venue ? `<span class='venue-label'>${paper.venue}</span>` : ""}
+            </div>
+            <div class="links">
+              ${
+                paper.paper_url
+                  ? `<a href=\"${paper.paper_url}\" target=\"_blank\">论文</a>`
+                  : ""
+              }
+              ${
+                paper.code
+                  ? `<a href=\"${paper.code}\" target=\"_blank\">代码</a>`
+                  : ""
+              }
+              ${
+                paper.project
+                  ? `<a href=\"${paper.project}\" target=\"_blank\">项目</a>`
+                  : ""
+              }
+              ${
+                paper.demo
+                  ? paper.demo
+                      .split(",")
+                      .map(
+                        (url, i) =>
+                          `<a href=\"${url.trim()}\" target=\"_blank\">Demo ${paper.demo.split(",").length > 1 ? (i + 1) : ""}</a>`
+                      )
+                      .join("")
+                  : ""
+              }
+              ${
+                paper.supplementary
+                  ? `<a href=\"${paper.supplementary}\" target=\"_blank\">补充材料</a>`
+                  : ""
+              }
+            </div>
+            <div class="collapsible-row" data-target="${abstractId}">
+              <span class="triangle" id="triangle-${abstractId}"></span>摘要
+            </div>
+            <div class="abstract content-collapsed" id="${abstractId}">${
+              paper.abstract || ""
+            }</div>
+            <div class="collapsible-row" data-target="${citationId}">
+              <span class="triangle" id="triangle-${citationId}"></span>引用
+            </div>
+            <div class="citation content-collapsed" id="${citationId}" style="position:relative;">
+              <button class="copy-citation-btn" data-clipboard="${citationId}" style="position:absolute;top:8px;right:10px;padding:2px 10px;font-size:0.95em;border:none;border-radius:4px;background:#e3f2fd;color:#1976d2;cursor:pointer;z-index:2;">复制</button>
+              <span>${paper.citation || ""}</span>
+            </div>
+          `;
+            papersDiv.appendChild(div);
+            idx++;
+          });
+        });
+        // 添加折叠/展开事件（三角+文字）
+        document.querySelectorAll(".collapsible-row").forEach((row) => {
+          row.addEventListener("click", function (e) {
+            // 避免点击复制按钮时触发折叠
+            if (e.target.classList.contains("copy-citation-btn")) return;
+            const targetId = this.getAttribute("data-target");
+            const content = document.getElementById(targetId);
+            const triangle = document.getElementById("triangle-" + targetId);
+            if (content.classList.contains("content-collapsed")) {
+              content.classList.remove("content-collapsed");
+              triangle.classList.add("open");
+            } else {
+              content.classList.add("content-collapsed");
+              triangle.classList.remove("open");
+            }
+          });
+        });
+        // 一键复制引用按钮
+        document.querySelectorAll('.copy-citation-btn').forEach(btn => {
+          btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const citationId = this.getAttribute('data-clipboard');
+            const citationText = document.querySelector(`#${citationId} span`).innerText;
+            if (navigator.clipboard) {
+              navigator.clipboard.writeText(citationText).then(() => {
+                this.textContent = '已复制!';
+                setTimeout(() => { this.textContent = '复制'; }, 1200);
+              });
+            } else {
+              // 兼容旧浏览器
+              const textarea = document.createElement('textarea');
+              textarea.value = citationText;
+              document.body.appendChild(textarea);
+              textarea.select();
+              document.execCommand('copy');
+              document.body.removeChild(textarea);
+              this.textContent = '已复制!';
+              setTimeout(() => { this.textContent = '复制'; }, 1200);
+            }
+          });
+        });
+      }
+
+      function filterPapers(keyword) {
+        keyword = keyword.trim().toLowerCase();
+        if (!keyword) {
+          renderPapers(allPapers);
+          return;
+        }
+        const filtered = allPapers.filter((paper) => {
+          return (
+            (paper.title && paper.title.toLowerCase().includes(keyword)) ||
+            (paper.conference &&
+              paper.conference.toLowerCase().includes(keyword)) ||
+            (paper.year && String(paper.year).includes(keyword)) ||
+            (paper.abstract &&
+              paper.abstract.toLowerCase().includes(keyword)) ||
+            (paper.citation && paper.citation.toLowerCase().includes(keyword))
+          );
+        });
+        renderPapers(filtered);
+      }
+
+      fetch("data.json")
+        .then((res) => res.json())
+        .then((data) => {
+          allPapers = data;
+          renderPapers(allPapers);
+        })
+        .catch((err) => {
+          papersDiv.innerText =
+            "无法加载 data.json 文件，请确保其与本页面在同一目录下。";
+        });
+
+      searchInput.addEventListener("input", (e) => {
+        filterPapers(e.target.value);
+      });
+    </script>
+  </body>
+</html>

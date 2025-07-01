@@ -8,6 +8,29 @@ The list focuses primarily on papers published after 2022, including some partic
 
 ## 2025
 
+### [Scalable Autoregressive Monocular Depth Estimation](https://openaccess.thecvf.com/content/CVPR2025/papers/Wang_Scalable_Autoregressive_Monocular_Depth_Estimation_CVPR_2025_paper.pdf) ![Static Badge](https://img.shields.io/badge/CVPR-FF0000)
+
+[Code](https://github.com/wjh892521292/DAR) | [Supplementary](https://openaccess.thecvf.com/content/CVPR2025/supplemental/Wang_Scalable_Autoregressive_Monocular_CVPR_2025_supplemental.pdf)
+
+<details closed>
+<summary>Abstract</summary>
+This paper proposes a new autoregressive model as an effective and scalable monocular depth estimator. Our idea is simple: We tackle the monocular depth estimation (MDE) task with an autoregressive prediction paradigm, based on two core designs. First, our depth autoregressive model (DAR) treats the depth map of different resolutions as a set of tokens, and conducts the low-to-high resolution autoregressive objective with a patch-wise casual mask. Second, our DAR recursively discretizes the entire depth range into more compact intervals, and attains the coarse-to-fine granularity autoregressive objective in an ordinal-regression manner. By coupling these two autoregressive objectives, our DAR establishes new state-of-the-art (SOTA) on KITTI and NYU Depth v2 by clear margins. Further, our scalable approach allows us to scale the model up to 2.0B and achieve the best RMSE of 1.799 on the KITTI dataset (5% improvement) compared to 1.896 by the current SOTA (Depth Anything). DAR further showcases zero-shot generalization ability on unseen datasets. These results suggest that DAR yields superior performance with an autoregressive prediction paradigm, providing a promising approach to equip modern autoregressive large models (e.g., GPT-4o) with depth estimation capabilities. Project page: https://depth-ar.github.io/
+</details>
+<details closed>
+<summary>Citation</summary>
+
+```bibtex
+@InProceedings{Wang_2025_CVPR,
+    author    = {Wang, Jinhong and Liu, Jian and Tang, Dongqi and Wang, Weiqiang and Li, Wentong and Chen, Danny and Chen, Jintai and Wu, Jian},
+    title     = {Scalable Autoregressive Monocular Depth Estimation},
+    booktitle = {Proceedings of the Computer Vision and Pattern Recognition Conference (CVPR)},
+    month     = {June},
+    year      = {2025},
+    pages     = {6262-6272}
+}
+```
+</details>
+
 ### [Lotus: Diffusion-based Visual Foundation Model for High-quality Dense Prediction](https://arxiv.org/pdf/2409.18124) ![Static Badge](https://img.shields.io/badge/ICLR-FF0000)
 
 [Code](https://github.com/EnVision-Research/Lotus) | [Project](https://lotus3d.github.io/) |  [Depth Demo](https://huggingface.co/spaces/haodongli/Lotus_Depth) | [Normal Demo](https://huggingface.co/spaces/haodongli/Lotus_Normal) 
