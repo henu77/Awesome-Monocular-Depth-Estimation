@@ -8,6 +8,26 @@ The list focuses primarily on papers published after 2022, including some partic
 
 ## 2025
 
+### [Depth Any Camera: Zero-Shot Metric Depth Estimation from Any Camera](https://arxiv.org/pdf/2501.02464) ![Static Badge](https://img.shields.io/badge/CVPR-FF0000)
+[Code](https://github.com/yuliangguo/depth_any_camera) | [Project](https://yuliangguo.github.io/depth-any-camera/) 
+<details closed>
+<summary>Abstract</summary>
+While recent depth foundation models exhibit strong zero-shot generalization, achieving accurate metric depth across diverse camera types-particularly those with large fields of view (FoV) such as fisheye and 360-degree cameras-remains a significant challenge. This paper presents Depth Any Camera (DAC), a powerful zero-shot metric depth estimation framework that extends a perspective-trained model to effectively handle cameras with varying FoVs. The framework is designed to ensure that all existing 3D data can be leveraged, regardless of the specific camera types used in new applications. Remarkably, DAC is trained exclusively on perspective images but generalizes seamlessly to fisheye and 360-degree cameras without the need for specialized training data. DAC employs Equi-Rectangular Projection (ERP) as a unified image representation, enabling consistent processing of images with diverse FoVs. Its core components include pitch-aware Image-to-ERP conversion with efficient online augmentation to simulate distorted ERP patches from undistorted inputs, FoV alignment operations to enable effective training across a wide range of FoVs, and multi-resolution data augmentation to further address resolution disparities between training and testing. DAC achieves state-of-the-art zero-shot metric depth estimation, improving \delta_1 accuracy by up to 50% on multiple fisheye and 360-degree datasets compared to prior metric depth foundation models, demonstrating robust generalization across camera types.
+</details>
+
+<details closed>
+<summary>Citation</summary>
+
+```bibtex
+@InProceedings{guo2025depth,
+  title={Depth Any Camera: Zero-Shot Metric Depth Estimation from Any Camera},
+  author={Guo, Yuliang and Garg, Sparsh and Miangoleh, S Mahdi H and Huang, Xinyu and Ren, Liu},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year={2025}
+}
+```
+</details>
+
 ### [Depth Pro: Sharp Monocular Metric Depth in Less Than a Second](https://arxiv.org/pdf/2410.02073) ![Static Badge](https://img.shields.io/badge/ICLR-FF0000)
 [Code](https://github.com/apple/ml-depth-pro) 
 <details closed>
@@ -30,7 +50,7 @@ We present a foundation model for zero-shot metric monocular depth estimation. O
 </details>
 
 ### [Lotus: Diffusion-based Visual Foundation Model for High-quality Dense Prediction](https://arxiv.org/pdf/2409.18124) ![Static Badge](https://img.shields.io/badge/ICLR-FF0000)
-[Code](https://github.com/EnVision-Research/Lotus) | [Project](https://lotus3d.github.io/) | [Demo1](https://huggingface.co/spaces/haodongli/Lotus_Depth) | [Demo2](https://huggingface.co/spaces/haodongli/Lotus_Normal) 
+[Code](https://github.com/EnVision-Research/Lotus) | [Project](https://lotus3d.github.io/) | [Demo1](http) | [Demo2](://huggingface.co/) | [Demo3](pace) | [Demo4](/haodongli/Lotu) | [Demo5](_Depth) | [Demo6]( http) | [Demo7](://huggingface.co/) | [Demo8](pace) | [Demo9](/haodongli/Lotu) | [Demo10](_Normal) 
 <details closed>
 <summary>Abstract</summary>
 Leveraging the visual priors of pre-trained text-to-image diffusion models offers a promising solution to enhance zero-shot generalization in dense prediction tasks. However, existing methods often uncritically use the original diffusion formulation, which may not be optimal due to the fundamental differences between dense prediction and image generation. In this paper, we provide a systemic analysis of the diffusion formulation for the dense prediction, focusing on both quality and efficiency. And we find that the original parameterization type for image generation, which learns to predict noise, is harmful for dense prediction; the multi-step noising/denoising diffusion process is also unnecessary and challenging to optimize. Based on these insights, we introduce Lotus, a diffusion-based visual foundation model with a simple yet effective adaptation protocol for dense prediction. Specifically, Lotus is trained to directly predict annotations instead of noise, thereby avoiding harmful variance. We also reformulate the diffusion process into a single-step procedure, simplifying optimization and significantly boosting inference speed. Additionally, we introduce a novel tuning strategy called detail preserver, which achieves more accurate and fine-grained predictions. Without scaling up the training data or model capacity, Lotus achieves SoTA performance in zero-shot depth and normal estimation across various datasets. It also enhances efficiency, being significantly faster than most existing diffusion-based methods. Lotus' superior quality and efficiency also enable a wide range of practical applications, such as joint estimation, single/multi-view 3D reconstruction, etc.

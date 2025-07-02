@@ -1,5 +1,15 @@
 [
   {
+    "year": "2025",
+    "title": "Depth Any Camera: Zero-Shot Metric Depth Estimation from Any Camera",
+    "venue": "CVPR",
+    "abstract": "While recent depth foundation models exhibit strong zero-shot generalization, achieving accurate metric depth across diverse camera types-particularly those with large fields of view (FoV) such as fisheye and 360-degree cameras-remains a significant challenge. This paper presents Depth Any Camera (DAC), a powerful zero-shot metric depth estimation framework that extends a perspective-trained model to effectively handle cameras with varying FoVs. The framework is designed to ensure that all existing 3D data can be leveraged, regardless of the specific camera types used in new applications. Remarkably, DAC is trained exclusively on perspective images but generalizes seamlessly to fisheye and 360-degree cameras without the need for specialized training data. DAC employs Equi-Rectangular Projection (ERP) as a unified image representation, enabling consistent processing of images with diverse FoVs. Its core components include pitch-aware Image-to-ERP conversion with efficient online augmentation to simulate distorted ERP patches from undistorted inputs, FoV alignment operations to enable effective training across a wide range of FoVs, and multi-resolution data augmentation to further address resolution disparities between training and testing. DAC achieves state-of-the-art zero-shot metric depth estimation, improving \\delta_1 accuracy by up to 50% on multiple fisheye and 360-degree datasets compared to prior metric depth foundation models, demonstrating robust generalization across camera types.",
+    "citation": "@InProceedings{guo2025depth,\n  title={Depth Any Camera: Zero-Shot Metric Depth Estimation from Any Camera},\n  author={Guo, Yuliang and Garg, Sparsh and Miangoleh, S Mahdi H and Huang, Xinyu and Ren, Liu},\n  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},\n  year={2025}\n}",
+    "code": "https://github.com/yuliangguo/depth_any_camera",
+    "paper_url": "https://arxiv.org/pdf/2501.02464",
+    "project": "https://yuliangguo.github.io/depth-any-camera/"
+  },
+  {
     "title": "Depth Pro: Sharp Monocular Metric Depth in Less Than a Second",
     "year": 2025,
     "venue": "ICLR",

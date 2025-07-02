@@ -14,7 +14,7 @@ FIELDS = [
 class PaperManagerTk:
     def __init__(self, root):
         self.root = root
-        self.root.title('论文管理器 (tkinter)')
+        self.root.title('论文管理器')
         self.papers = []
         self.filtered = []
         self.create_widgets()
@@ -126,13 +126,11 @@ class PaperManagerTk:
 
     def save_data(self):
         """
-        保存当前论文数据到data.json，保存成功或失败均弹窗提示。
+        保存当前论文数据到data.json，无感保存，无弹窗提示。
         保存时按照年份降序、同一年内按论文标题首字母升序排序。
         """
         try:
-            # 先排序：年份降序，标题首字母升序
             def sort_key(p):
-                # 年份优先，降序；标题首字母升序
                 year = p.get('year', '')
                 try:
                     year_int = int(year)
@@ -143,9 +141,25 @@ class PaperManagerTk:
             sorted_papers = sorted(self.papers, key=sort_key)
             with open(DATA_FILE, 'w', encoding='utf-8') as f:
                 json.dump(sorted_papers, f, ensure_ascii=False, indent=2)
-            messagebox.showinfo('提示', '保存成功!')
+            self.show_fade_tip('已自动保存')
         except Exception as e:
-            messagebox.showwarning('警告', f'保存失败: {e}')
+            self.show_fade_tip(f'保存失败: {e}', error=True)
+
+    def show_fade_tip(self, text, error=False, duration=1800):
+        """
+        在主窗口右下角显示自动消失的提示信息。
+        """
+        if hasattr(self, '_fade_tip_label') and self._fade_tip_label:
+            self._fade_tip_label.destroy()
+        label = tk.Label(self.root, text=text, bg='#f5f6fa', fg=('#e84118' if error else '#44bd32'),
+                        font=('微软雅黑', 10, 'bold'), bd=0, relief=tk.FLAT)
+        label.place(relx=1.0, rely=1.0, anchor='se', x=-18, y=-18)
+        self._fade_tip_label = label
+        def remove_label():
+            if label:
+                label.destroy()
+                self._fade_tip_label = None
+        self.root.after(duration, remove_label)
 
     def refresh_table(self):
         """
@@ -176,6 +190,8 @@ class PaperManagerTk:
             self.papers.append(data)
             self.filtered = self.papers.copy()
             self.refresh_table()
+            self.save_data()
+            self.generate_readme()
 
     def edit_paper(self):
         idx = self.get_selected_index()
@@ -190,6 +206,8 @@ class PaperManagerTk:
             self.papers[orig_idx] = data
             self.filtered[idx] = data
             self.refresh_table()
+            self.save_data()
+            self.generate_readme()
 
     def delete_paper(self):
         idx = self.get_selected_index()
@@ -201,6 +219,8 @@ class PaperManagerTk:
             self.papers.remove(paper)
             self.filtered.remove(paper)
             self.refresh_table()
+            self.save_data()
+            self.generate_readme()
 
     def search_papers(self):
         keyword = self.search_var.get().strip().lower()
@@ -222,14 +242,13 @@ class PaperManagerTk:
 
     def generate_readme(self):
         """
-        按照项目README.md的格式生成README.md文件。
+        按照项目README.md的格式生成README.md文件，无感保存，无弹窗提示。
         """
         try:
             year_map = {}
             for p in self.papers:
                 y = str(p.get('year', 'earlier'))
                 year_map.setdefault(y, []).append(p)
-            # 年份排序，2025、2024、2023、2022、earlier
             def year_sort_key(y):
                 try:
                     return -int(y)
@@ -249,42 +268,27 @@ class PaperManagerTk:
             for y in years:
                 lines.append(f'## {y}\n')
                 for p in year_map[y]:
-                    # 标题
                     title = p.get('title', '')
-                    # 会议/期刊
                     venue = p.get('venue', '')
-                    # 论文链接
                     paper_url = p.get('paper_url', '')
-                    # 代码链接
                     code = p.get('code', '')
-                    # 项目页
                     project = p.get('project', '')
-                    # demo，支持多个 demo
                     demo = p.get('demo', '')
-                    # 补充材料
                     supp = p.get('supplementary', '')
-                    # 摘要
                     abstract = p.get('abstract', '')
-                    # bibtex
                     citation = p.get('citation', '')
-                    # 构建标题行
                     title_line = f"### [{title}]({paper_url})" if paper_url else f"### {title}"
                     if venue:
-                        # venue 可能有空格，需替换为 %20
                         venue_badge = venue.replace(' ', '_')
                         title_line += f" ![Static Badge](https://img.shields.io/badge/{venue_badge}-FF0000)"
                     lines.append(title_line)
-                    # 资源链接
                     link_line = []
                     if code:
                         link_line.append(f"[Code]({code})")
                     if project:
                         link_line.append(f"[Project]({project})")
-                    # 支持 demo 为多个链接（逗号、分号、空格分隔）
                     if demo:
-                        # 尝试分割多个 demo 链接
-
-                        demo_list = re.split(r'[;,\s]+', demo.strip())
+                        demo_list = re.split(r'[;,s]+', demo.strip())
                         demo_list = [d for d in demo_list if d]
                         for i, d in enumerate(demo_list):
                             if len(demo_list) == 1:
@@ -295,13 +299,11 @@ class PaperManagerTk:
                         link_line.append(f"[Supplementary]({supp})")
                     if link_line:
                         lines.append(' | '.join(link_line) + ' ')
-                    # 摘要
                     if abstract:
                         lines.append('<details closed>')
                         lines.append('<summary>Abstract</summary>')
                         lines.append(abstract.strip())
                         lines.append('</details>')
-                    # bibtex
                     if citation:
                         lines.append('')
                         lines.append('<details closed>')
@@ -314,9 +316,9 @@ class PaperManagerTk:
                     lines.append('')
             with open(README_FILE, 'w', encoding='utf-8') as f:
                 f.write('\n'.join(lines))
-            messagebox.showinfo('提示', 'README.md 生成成功!')
+            self.show_fade_tip('README.md 已自动生成')
         except Exception as e:
-            messagebox.showwarning('警告', f'生成 README.md 失败: {e}')
+            self.show_fade_tip(f'生成 README.md 失败: {e}', error=True)
 
     def edit_dialog(self, paper=None):
         # 动态字段
