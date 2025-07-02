@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import messagebox, simpledialog, ttk, filedialog
 import json
 import os
+import re
+
 
 DATA_FILE = 'data.json'
 README_FILE = 'README.md'
@@ -257,7 +259,7 @@ class PaperManagerTk:
                     code = p.get('code', '')
                     # 项目页
                     project = p.get('project', '')
-                    # demo
+                    # demo，支持多个 demo
                     demo = p.get('demo', '')
                     # 补充材料
                     supp = p.get('supplementary', '')
@@ -268,7 +270,9 @@ class PaperManagerTk:
                     # 构建标题行
                     title_line = f"### [{title}]({paper_url})" if paper_url else f"### {title}"
                     if venue:
-                        title_line += f" ![Static Badge](https://img.shields.io/badge/{venue}-FF0000)"
+                        # venue 可能有空格，需替换为 %20
+                        venue_badge = venue.replace(' ', '_')
+                        title_line += f" ![Static Badge](https://img.shields.io/badge/{venue_badge}-FF0000)"
                     lines.append(title_line)
                     # 资源链接
                     link_line = []
@@ -276,8 +280,17 @@ class PaperManagerTk:
                         link_line.append(f"[Code]({code})")
                     if project:
                         link_line.append(f"[Project]({project})")
+                    # 支持 demo 为多个链接（逗号、分号、空格分隔）
                     if demo:
-                        link_line.append(f"[Demo]({demo})")
+                        # 尝试分割多个 demo 链接
+
+                        demo_list = re.split(r'[;,\s]+', demo.strip())
+                        demo_list = [d for d in demo_list if d]
+                        for i, d in enumerate(demo_list):
+                            if len(demo_list) == 1:
+                                link_line.append(f"[Demo]({d})")
+                            else:
+                                link_line.append(f"[Demo{i+1}]({d})")
                     if supp:
                         link_line.append(f"[Supplementary]({supp})")
                     if link_line:

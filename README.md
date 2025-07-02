@@ -30,7 +30,7 @@ We present a foundation model for zero-shot metric monocular depth estimation. O
 </details>
 
 ### [Lotus: Diffusion-based Visual Foundation Model for High-quality Dense Prediction](https://arxiv.org/pdf/2409.18124) ![Static Badge](https://img.shields.io/badge/ICLR-FF0000)
-[Code](https://github.com/EnVision-Research/Lotus) | [Project](https://lotus3d.github.io/) | [Demo](https://huggingface.co/spaces/haodongli/Lotus_Depth, https://huggingface.co/spaces/haodongli/Lotus_Normal) 
+[Code](https://github.com/EnVision-Research/Lotus) | [Project](https://lotus3d.github.io/) | [Demo1](https://huggingface.co/spaces/haodongli/Lotus_Depth) | [Demo2](https://huggingface.co/spaces/haodongli/Lotus_Normal) 
 <details closed>
 <summary>Abstract</summary>
 Leveraging the visual priors of pre-trained text-to-image diffusion models offers a promising solution to enhance zero-shot generalization in dense prediction tasks. However, existing methods often uncritically use the original diffusion formulation, which may not be optimal due to the fundamental differences between dense prediction and image generation. In this paper, we provide a systemic analysis of the diffusion formulation for the dense prediction, focusing on both quality and efficiency. And we find that the original parameterization type for image generation, which learns to predict noise, is harmful for dense prediction; the multi-step noising/denoising diffusion process is also unnecessary and challenging to optimize. Based on these insights, we introduce Lotus, a diffusion-based visual foundation model with a simple yet effective adaptation protocol for dense prediction. Specifically, Lotus is trained to directly predict annotations instead of noise, thereby avoiding harmful variance. We also reformulate the diffusion process into a single-step procedure, simplifying optimization and significantly boosting inference speed. Additionally, we introduce a novel tuning strategy called detail preserver, which achieves more accurate and fine-grained predictions. Without scaling up the training data or model capacity, Lotus achieves SoTA performance in zero-shot depth and normal estimation across various datasets. It also enhances efficiency, being significantly faster than most existing diffusion-based methods. Lotus' superior quality and efficiency also enable a wide range of practical applications, such as joint estimation, single/multi-view 3D reconstruction, etc.
@@ -140,7 +140,7 @@ Single image depth estimation is a foundational task in computer vision and gene
 ```
 </details>
 
-### [Scale-Invariant Monocular Depth Estimation via SSI Depth](https://arxiv.org/pdf/2406.09374) ![Static Badge](https://img.shields.io/badge/ACM SIGGRAPH-FF0000)
+### [Scale-Invariant Monocular Depth Estimation via SSI Depth](https://arxiv.org/pdf/2406.09374) ![Static Badge](https://img.shields.io/badge/ACM_SIGGRAPH-FF0000)
 [Project](https://yaksoy.github.io/sidepth/) | [Supplementary](https://yaksoy.github.io/papers/SIG24-SI-Depth-Supp.pdf) 
 <details closed>
 <summary>Abstract</summary>
