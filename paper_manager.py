@@ -288,13 +288,13 @@ class PaperManagerTk:
                     if project:
                         link_line.append(f"[Project]({project})")
                     if demo:
-                        demo_list = re.split(r'[;,s]+', demo.strip())
-                        demo_list = [d for d in demo_list if d]
+                        demo_list = demo.split(', ')
+                        demo_list = [d.strip() for d in demo_list if d.strip()]
                         for i, d in enumerate(demo_list):
                             if len(demo_list) == 1:
                                 link_line.append(f"[Demo]({d})")
                             else:
-                                link_line.append(f"[Demo{i+1}]({d})")
+                                link_line.append(f"[Demo {i+1}]({d})")
                     if supp:
                         link_line.append(f"[Supplementary]({supp})")
                     if link_line:
