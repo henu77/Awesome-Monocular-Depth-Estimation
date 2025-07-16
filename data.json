@@ -68,6 +68,18 @@
     "citation": "@InProceedings{Patni_2024_CVPR,\n    author    = {Patni, Suraj and Agarwal, Aradhye and Arora, Chetan},\n    title     = {ECoDepth: Effective Conditioning of Diffusion Models for Monocular Depth Estimation},\n    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},\n    month     = {June},\n    year      = {2024},\n    pages     = {28285-28295}\n}"
   },
   {
+    "title": "IEBins: Iterative Elastic Bins for Monocular Depth Estimation",
+    "year": 2024,
+    "venue": "NeurIPS",
+    "paper_url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/a61023ce36d21010f1423304f8ec49af-Paper-Conference.pdf",
+    "code": "https://github.com/ShuweiShao/IEBins",
+    "supplementary": "https://proceedings.neurips.cc/paper_files/paper/2023/file/a61023ce36d21010f1423304f8ec49af-Supplemental-Conference.pdf",
+    "project": "",
+    "demo": "",
+    "abstract": "Monocular depth estimation (MDE) is a fundamental topic of geometric computer vision and a core technique for many downstream applications. Recently, several methods reframe the MDE as a classification-regression problem where a linear combination of probabilistic distribution and bin centers is used to predict depth. In this paper, we propose a novel concept of iterative elastic bins (IEBins) for the classification-regression-based MDE. The proposed IEBins aims to search for high-quality depth by progressively optimizing the search range, which involves multiple stages and each stage performs a finer-grained depth search in the target bin on top of its previous stage. To alleviate the possible error accumulation during the iterative process, we utilize a novel elastic target bin to replace the original target bin, the width of which is adjusted elastically based on the depth uncertainty. Furthermore, we develop a dedicated framework composed of a feature extractor and an iterative optimizer that has powerful temporal context modeling capabilities benefiting from the GRU-based architecture. Extensive experiments on the KITTI, NYU-Depth-v2 and SUN RGB-D datasets demonstrate that the proposed method surpasses prior state-of-the-art competitors. The source code is publicly available at https://github.com/ShuweiShao/IEBins.",
+    "citation": "@inproceedings{NEURIPS2023_a61023ce,\n  author = {Shao, Shuwei and Pei, Zhongcai and Wu, Xingming and Liu, Zhong and Chen, Weihai and Li, Zhengguo},\n  booktitle = {Advances in Neural Information Processing Systems},\n  editor = {A. Oh and T. Naumann and A. Globerson and K. Saenko and M. Hardt and S. Levine},\n  pages = {53025--53037},\n  publisher = {Curran Associates, Inc.},\n  title = {IEBins: Iterative Elastic Bins for Monocular Depth Estimation},\n volume = {36},\n  year = {2023}\n}"
+  },
+  {
     "title": "PatchFusion: An End-to-End Tile-Based Framework for High-Resolution Monocular Metric Depth Estimation",
     "year": 2024,
     "venue": "CVPR",
@@ -102,5 +114,29 @@
     "demo": "",
     "abstract": "Three-dimensional (3D) reconstruction from a single image is an ill-posed problem with inherent ambiguities i.e. scale. Predicting a 3D scene from text description(s) is similarly ill-posed i.e. spatial arrangements of objects described. We investigate the question of whether two inherently ambiguous modalities can be used in conjunction to produce metric-scaled reconstructions. To test this we focus on monocular depth estimation the problem of predicting a dense depth map from a single image but with an additional text caption describing the scene. To this end we begin by encoding the text caption as a mean and standard deviation; using a variational framework we learn the distribution of the plausible metric reconstructions of 3D scenes corresponding to the text captions as a prior. To 'select' a specific reconstruction or depth map we encode the given image through a conditional sampler that samples from the latent space of the variational text encoder which is then decoded to the output depth map. Our approach is trained alternatingly between the text and image branches: in one optimization step we predict the mean and standard deviation from the text description and sample from a standard Gaussian and in the other we sample using a (image) conditional sampler. Once trained we directly predict depth from the encoded text using the conditional sampler. We demonstrate our approach on indoor (NYUv2) and outdoor (KITTI) scenarios where we show that language can consistently improve performance in both. Code: https://github.com/Adonis-galaxy/WorDepth.",
     "citation": "@InProceedings{Zeng_2024_CVPR,\n    author    = {Zeng, Ziyao and Wang, Daniel and Yang, Fengyu and Park, Hyoungseob and Soatto, Stefano and Lao, Dong and Wong, Alex},\n    title     = {WorDepth: Variational Language Prior for Monocular Depth Estimation},\n    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},\n    month     = {June},\n    year      = {2024},\n    pages     = {9708-9719}\n}"
+  },
+  {
+    "title": "BinsFormer: Revisiting Adaptive Bins for Monocular Depth Estimation",
+    "year": 2022,
+    "venue": "IEEE TIP",
+    "paper_url": "https://arxiv.org/pdf/2204.00987",
+    "code": "https://github.com/zhyever/Monocular-Depth-Estimation-Toolbox/tree/main/configs/binsformer.",
+    "supplementary": "",
+    "project": "",
+    "demo": "",
+    "abstract": "Monocular depth estimation (MDE) is a fundamental task in computer vision and has drawn increasing attention. Recently, some methods reformulate it as a classification-regression task to boost the model performance, where continuous depth is estimated via a linear combination of predicted probability distributions and discrete bins. In this paper, we present a novel framework called BinsFormer, tailored for the classification-regression-based depth estimation. It mainly focuses on two crucial components in the specific task: 1) proper generation of adaptive bins; and 2) sufficient interaction between probability distribution and bins predictions. To specify, we employ a Transformer decoder to generate bins, novelly viewing it as a direct set-to-set prediction problem. We further integrate a multi-scale decoder structure to achieve a comprehensive understanding of spatial geometry information and estimate depth maps in a coarse-to-fine manner. Moreover, an extra scene understanding query is proposed to improve the estimation accuracy, which turns out that models can implicitly learn useful information from the auxiliary environment classification task. Extensive experiments on the KITTI, NYU, and SUN RGB-D datasets demonstrate that BinsFormer surpasses state-of-the-art MDE methods with prominent margins. Code and pretrained models are made publicly available at https://github.com/zhyever/ Monocular-Depth-Estimation-Toolbox/tree/main/configs/ binsformer.",
+    "citation": "@ARTICLE{10570231,\n  author={Li, Zhenyu and Wang, Xuyang and Liu, Xianming and Jiang, Junjun},\n  journal={IEEE Transactions on Image Processing}, \n  title={BinsFormer: Revisiting Adaptive Bins for Monocular Depth Estimation}, \n  year={2024},\n  volume={33},\n  number={},\n  pages={3964-3976},\n  keywords={Estimation;Transformers;Task analysis;Decoding;Probabilistic logic;Training;Computer vision;Monocular depth estimation;adaptive bins;multi-scale refinement;auxiliary task;transformer},\n  doi={10.1109/TIP.2024.3416065}\n}"
+  },
+  {
+    "title": "AdaBins: Depth Estimation Using Adaptive Bins",
+    "year": 2021,
+    "venue": "CVPR",
+    "paper_url": "https://openaccess.thecvf.com/content/CVPR2021/papers/Bhat_AdaBins_Depth_Estimation_Using_Adaptive_Bins_CVPR_2021_paper.pdf",
+    "code": "https://github.com/shariqfarooq123/AdaBins",
+    "supplementary": "https://openaccess.thecvf.com/content/CVPR2021/supplemental/Bhat_AdaBins_Depth_Estimation_CVPR_2021_supplemental.zip",
+    "project": "",
+    "demo": "https://colab.research.google.com/drive/1oxHflMh6eAJS7BhvP1amHvuBSirlS5Vl?usp=sharing",
+    "abstract": "We address the problem of estimating a high quality dense depth map from a single RGB input image. We start out with a baseline encoder-decoder convolutional neural network architecture and pose the question of how the global processing of information can help improve overall depth estimation. To this end, we propose a transformer-based architecture block that divides the depth range into bins whose center value is estimated adaptively per image. The final depth values are estimated as linear combinations of the bin centers. We call our new building block AdaBins. Our results show a decisive improvement over the state-of-the-art on several popular depth datasets across all metrics. We also validate the effectiveness of the proposed block with an ablation study and provide the code and corresponding pre-trained weights of the new state-of-the-art model.",
+    "citation": "@InProceedings{Bhat_2021_CVPR,\n    author    = {Bhat, Shariq Farooq and Alhashim, Ibraheem and Wonka, Peter},\n    title     = {AdaBins: Depth Estimation Using Adaptive Bins},\n    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},\n    month     = {June},\n    year      = {2021},\n    pages     = {4009-4018}\n}"
   }
 ]
