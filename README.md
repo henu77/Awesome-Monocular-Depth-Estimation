@@ -50,7 +50,7 @@ We present a foundation model for zero-shot metric monocular depth estimation. O
 </details>
 
 ### [Lotus: Diffusion-based Visual Foundation Model for High-quality Dense Prediction](https://arxiv.org/pdf/2409.18124) ![Static Badge](https://img.shields.io/badge/ICLR-FF0000)
-[Code](https://github.com/EnVision-Research/Lotus) | [Project](https://lotus3d.github.io/) | [Demo1](http) | [Demo2](://huggingface.co/) | [Demo3](pace) | [Demo4](/haodongli/Lotu) | [Demo5](_Depth) | [Demo6]( http) | [Demo7](://huggingface.co/) | [Demo8](pace) | [Demo9](/haodongli/Lotu) | [Demo10](_Normal) 
+[Code](https://github.com/EnVision-Research/Lotus) | [Project](https://lotus3d.github.io/) | [Demo 1](https://huggingface.co/spaces/haodongli/Lotus_Depth) | [Demo 2](https://huggingface.co/spaces/haodongli/Lotus_Normal) 
 <details closed>
 <summary>Abstract</summary>
 Leveraging the visual priors of pre-trained text-to-image diffusion models offers a promising solution to enhance zero-shot generalization in dense prediction tasks. However, existing methods often uncritically use the original diffusion formulation, which may not be optimal due to the fundamental differences between dense prediction and image generation. In this paper, we provide a systemic analysis of the diffusion formulation for the dense prediction, focusing on both quality and efficiency. And we find that the original parameterization type for image generation, which learns to predict noise, is harmful for dense prediction; the multi-step noising/denoising diffusion process is also unnecessary and challenging to optimize. Based on these insights, we introduce Lotus, a diffusion-based visual foundation model with a simple yet effective adaptation protocol for dense prediction. Specifically, Lotus is trained to directly predict annotations instead of noise, thereby avoiding harmful variance. We also reformulate the diffusion process into a single-step procedure, simplifying optimization and significantly boosting inference speed. Additionally, we introduce a novel tuning strategy called detail preserver, which achieves more accurate and fine-grained predictions. Without scaling up the training data or model capacity, Lotus achieves SoTA performance in zero-shot depth and normal estimation across various datasets. It also enhances efficiency, being significantly faster than most existing diffusion-based methods. Lotus' superior quality and efficiency also enable a wide range of practical applications, such as joint estimation, single/multi-view 3D reconstruction, etc.
@@ -138,6 +138,30 @@ In the absence of parallax cues, a learning based single image depth estimation 
 ```
 </details>
 
+### [IEBins: Iterative Elastic Bins for Monocular Depth Estimation](https://proceedings.neurips.cc/paper_files/paper/2023/file/a61023ce36d21010f1423304f8ec49af-Paper-Conference.pdf) ![Static Badge](https://img.shields.io/badge/NeurIPS-FF0000)
+[Code](https://github.com/ShuweiShao/IEBins) | [Supplementary](https://proceedings.neurips.cc/paper_files/paper/2023/file/a61023ce36d21010f1423304f8ec49af-Supplemental-Conference.pdf) 
+<details closed>
+<summary>Abstract</summary>
+Monocular depth estimation (MDE) is a fundamental topic of geometric computer vision and a core technique for many downstream applications. Recently, several methods reframe the MDE as a classification-regression problem where a linear combination of probabilistic distribution and bin centers is used to predict depth. In this paper, we propose a novel concept of iterative elastic bins (IEBins) for the classification-regression-based MDE. The proposed IEBins aims to search for high-quality depth by progressively optimizing the search range, which involves multiple stages and each stage performs a finer-grained depth search in the target bin on top of its previous stage. To alleviate the possible error accumulation during the iterative process, we utilize a novel elastic target bin to replace the original target bin, the width of which is adjusted elastically based on the depth uncertainty. Furthermore, we develop a dedicated framework composed of a feature extractor and an iterative optimizer that has powerful temporal context modeling capabilities benefiting from the GRU-based architecture. Extensive experiments on the KITTI, NYU-Depth-v2 and SUN RGB-D datasets demonstrate that the proposed method surpasses prior state-of-the-art competitors. The source code is publicly available at https://github.com/ShuweiShao/IEBins.
+</details>
+
+<details closed>
+<summary>Citation</summary>
+
+```bibtex
+@inproceedings{NEURIPS2023_a61023ce,
+  author = {Shao, Shuwei and Pei, Zhongcai and Wu, Xingming and Liu, Zhong and Chen, Weihai and Li, Zhengguo},
+  booktitle = {Advances in Neural Information Processing Systems},
+  editor = {A. Oh and T. Naumann and A. Globerson and K. Saenko and M. Hardt and S. Levine},
+  pages = {53025--53037},
+  publisher = {Curran Associates, Inc.},
+  title = {IEBins: Iterative Elastic Bins for Monocular Depth Estimation},
+ volume = {36},
+  year = {2023}
+}
+```
+</details>
+
 ### [PatchFusion: An End-to-End Tile-Based Framework for High-Resolution Monocular Metric Depth Estimation](https://openaccess.thecvf.com/content/CVPR2024/papers/Li_PatchFusion_An_End-to-End_Tile-Based_Framework_for_High-Resolution_Monocular_Metric_Depth_CVPR_2024_paper.pdf) ![Static Badge](https://img.shields.io/badge/CVPR-FF0000)
 [Code](https://zhyever.github.io/patchfusion/) 
 <details closed>
@@ -198,6 +222,57 @@ Three-dimensional (3D) reconstruction from a single image is an ill-posed proble
     month     = {June},
     year      = {2024},
     pages     = {9708-9719}
+}
+```
+</details>
+
+## 2022
+
+### [BinsFormer: Revisiting Adaptive Bins for Monocular Depth Estimation](https://arxiv.org/pdf/2204.00987) ![Static Badge](https://img.shields.io/badge/IEEE_TIP-FF0000)
+[Code](https://github.com/zhyever/Monocular-Depth-Estimation-Toolbox/tree/main/configs/binsformer.) 
+<details closed>
+<summary>Abstract</summary>
+Monocular depth estimation (MDE) is a fundamental task in computer vision and has drawn increasing attention. Recently, some methods reformulate it as a classification-regression task to boost the model performance, where continuous depth is estimated via a linear combination of predicted probability distributions and discrete bins. In this paper, we present a novel framework called BinsFormer, tailored for the classification-regression-based depth estimation. It mainly focuses on two crucial components in the specific task: 1) proper generation of adaptive bins; and 2) sufficient interaction between probability distribution and bins predictions. To specify, we employ a Transformer decoder to generate bins, novelly viewing it as a direct set-to-set prediction problem. We further integrate a multi-scale decoder structure to achieve a comprehensive understanding of spatial geometry information and estimate depth maps in a coarse-to-fine manner. Moreover, an extra scene understanding query is proposed to improve the estimation accuracy, which turns out that models can implicitly learn useful information from the auxiliary environment classification task. Extensive experiments on the KITTI, NYU, and SUN RGB-D datasets demonstrate that BinsFormer surpasses state-of-the-art MDE methods with prominent margins. Code and pretrained models are made publicly available at https://github.com/zhyever/ Monocular-Depth-Estimation-Toolbox/tree/main/configs/ binsformer.
+</details>
+
+<details closed>
+<summary>Citation</summary>
+
+```bibtex
+@ARTICLE{10570231,
+  author={Li, Zhenyu and Wang, Xuyang and Liu, Xianming and Jiang, Junjun},
+  journal={IEEE Transactions on Image Processing}, 
+  title={BinsFormer: Revisiting Adaptive Bins for Monocular Depth Estimation}, 
+  year={2024},
+  volume={33},
+  number={},
+  pages={3964-3976},
+  keywords={Estimation;Transformers;Task analysis;Decoding;Probabilistic logic;Training;Computer vision;Monocular depth estimation;adaptive bins;multi-scale refinement;auxiliary task;transformer},
+  doi={10.1109/TIP.2024.3416065}
+}
+```
+</details>
+
+## 2021
+
+### [AdaBins: Depth Estimation Using Adaptive Bins](https://openaccess.thecvf.com/content/CVPR2021/papers/Bhat_AdaBins_Depth_Estimation_Using_Adaptive_Bins_CVPR_2021_paper.pdf) ![Static Badge](https://img.shields.io/badge/CVPR-FF0000)
+[Code](https://github.com/shariqfarooq123/AdaBins) | [Demo](https://camo.githubusercontent.com/96889048f8a9014fdeba2a891f97150c6aac6e723f5190236b10215a97ed41f3/68747470733a2f2f636f6c61622e72657365617263682e676f6f676c652e636f6d2f6173736574732f636f6c61622d62616467652e737667) | [Supplementary](https://openaccess.thecvf.com/content/CVPR2021/supplemental/Bhat_AdaBins_Depth_Estimation_CVPR_2021_supplemental.zip) 
+<details closed>
+<summary>Abstract</summary>
+We address the problem of estimating a high quality dense depth map from a single RGB input image. We start out with a baseline encoder-decoder convolutional neural network architecture and pose the question of how the global processing of information can help improve overall depth estimation. To this end, we propose a transformer-based architecture block that divides the depth range into bins whose center value is estimated adaptively per image. The final depth values are estimated as linear combinations of the bin centers. We call our new building block AdaBins. Our results show a decisive improvement over the state-of-the-art on several popular depth datasets across all metrics. We also validate the effectiveness of the proposed block with an ablation study and provide the code and corresponding pre-trained weights of the new state-of-the-art model.
+</details>
+
+<details closed>
+<summary>Citation</summary>
+
+```bibtex
+@InProceedings{Bhat_2021_CVPR,
+    author    = {Bhat, Shariq Farooq and Alhashim, Ibraheem and Wonka, Peter},
+    title     = {AdaBins: Depth Estimation Using Adaptive Bins},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    month     = {June},
+    year      = {2021},
+    pages     = {4009-4018}
 }
 ```
 </details>
